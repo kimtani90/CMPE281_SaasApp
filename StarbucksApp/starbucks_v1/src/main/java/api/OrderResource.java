@@ -116,7 +116,7 @@ public class OrderResource extends ServerResource {
             return new JacksonRepresentation<api.Status>(api) ;
 
         }
-        else if ( existing_order.get("status") !=  "PLACED" ) {
+        else if ( !((String)existing_order.get("status")).equals("PLACED") ) {
 
             setStatus( org.restlet.data.Status.CLIENT_ERROR_PRECONDITION_FAILED ) ;
             api.Status api = new api.Status() ;
@@ -128,7 +128,11 @@ public class OrderResource extends ServerResource {
         else {
 
             StarbucksAPI.removeOrder(existing_order) ;
-            return null ;
+            setStatus( org.restlet.data.Status.SUCCESS_OK ) ;
+            api.Status api = new api.Status() ;
+            api.status = "success" ;
+            api.message = "Order removed successfully." ;
+            return new JacksonRepresentation<api.Status>(api) ;
         }
 
     }

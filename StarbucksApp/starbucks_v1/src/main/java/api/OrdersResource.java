@@ -9,12 +9,14 @@ import org.restlet.ext.json.* ;
 import org.restlet.resource.* ;
 import org.restlet.ext.jackson.* ;
 import com.mongodb.DBCursor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.io.IOException ;
 import java.util.Collection ;
 
 public class OrdersResource extends ServerResource {
 
+    @CrossOrigin
     @Get
     public Representation get_action (Representation rep) throws IOException {
         FindIterable<Document> orders = StarbucksAPI.getOrders() ;

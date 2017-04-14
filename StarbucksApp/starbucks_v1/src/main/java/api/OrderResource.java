@@ -8,6 +8,7 @@ import org.restlet.ext.json.* ;
 import org.restlet.resource.* ;
 import org.restlet.ext.jackson.* ;
 import com.mongodb.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.io.IOException ;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class OrderResource extends ServerResource {
     DBCollection collection = mongoService.collection("Order");*/
 
     @Get
+    @CrossOrigin
     public Representation get_action() throws JSONException {
 
         String order_id = getAttribute("order_id") ;
@@ -47,7 +49,7 @@ public class OrderResource extends ServerResource {
         }
     }
 
-
+    @CrossOrigin
     @Post
     public Representation post_action (Representation rep) throws IOException {
 
@@ -61,7 +63,7 @@ public class OrderResource extends ServerResource {
         return new JacksonRepresentation<Order>(order) ;
     }
 
-
+    @CrossOrigin
     @Put
     public Representation put_action (Representation rep) throws IOException {
 
@@ -100,6 +102,7 @@ public class OrderResource extends ServerResource {
         }
     }
 
+    @CrossOrigin
     @Delete
     public Representation delete_action (Representation rep) throws IOException {
 

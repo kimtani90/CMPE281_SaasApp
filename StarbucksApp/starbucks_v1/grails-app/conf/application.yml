@@ -6,6 +6,8 @@ grails:
     spring:
         transactionManagement:
             proxies: false
+    cors:
+        enabled: true
 info:
     app:
         name: '@info.app.name@'
@@ -81,20 +83,6 @@ endpoints:
         unique-names: true
 
 ---
-environments:
-    development:
-        grails:
-            mongodb:
-                host: "localhost"
-                port: 27017
-                username: ""
-                password: ""
-                databaseName: "starbucks"
-    production:
-        grails:
-            mongodb:
-                host: "localhost"
-                port: 27017
-                username: ""
-                password: ""
-                databaseName: "starbucks"
+grails:
+    cors:
+        enabled: true

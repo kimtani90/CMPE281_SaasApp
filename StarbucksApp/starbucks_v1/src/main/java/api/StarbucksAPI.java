@@ -94,9 +94,11 @@ public class StarbucksAPI {
         FindIterable<Document> find = collection.find(query);
 
         MongoCursor<Document> cursor = find.iterator();
-        Document doc = new Document();
+        Document doc = null;
         try {
             while (cursor.hasNext()) {
+                System.out.println(doc+ " "+cursor );
+                doc =  new Document();
                 doc = cursor.next();
 
             }
@@ -104,7 +106,7 @@ public class StarbucksAPI {
         catch (Exception e){
             e.printStackTrace();
         }
-
+        System.out.println("hhhh   "+doc );
         return doc ;
     }
 

@@ -8,7 +8,7 @@ import org.bson.Document;
 
 class MongoService {
     private static MongoClient mongoClient;
-    private static String host = "13.56.12.153";   //your host name
+    private static String host = "54.183.242.172";   //your host name
     private static int port = 27017;      //your port no.
     private static String databaseName = "starbucks";
 

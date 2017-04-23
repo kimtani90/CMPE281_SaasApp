@@ -6,8 +6,6 @@ grails:
     spring:
         transactionManagement:
             proxies: false
-    cors:
-        enabled: true
 info:
     app:
         name: '@info.app.name@'

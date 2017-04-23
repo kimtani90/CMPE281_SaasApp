@@ -43,10 +43,10 @@ public class StarbucksAPI {
 
         //StarbucksAPI.orders.put( key, order ) ;
         Document itemList = new Document();
-        ArrayList<Document> itemDocumentList = new ArrayList<>();
-        ArrayList<OrderItem> orderItemsList = order.items;
+      //  ArrayList<Document> itemDocumentList = new ArrayList<>();
+        //ArrayList<OrderItem> orderItemsList = order.items;
 
-        for  (OrderItem orderItem : orderItemsList) {
+       /* for  (OrderItem orderItem : orderItemsList) {
 
             Document doc = new Document("qty", orderItem.qty)
                     .append("name", orderItem.name)
@@ -60,7 +60,16 @@ public class StarbucksAPI {
                 .append("links", order.links)
                 .append("status", order.status)
                 .append("message", order.message);
-
+*/
+        Document document = new Document("id", order.id)
+                .append("location", order.location)
+                .append("qty", order.qty)
+                .append("name", order.name)
+                .append("milk", order.milk)
+                .append("size", order.size)
+                .append("links", order.links)
+                .append("status", order.status)
+                .append("message", order.message);
         collection.insertOne(document);
 
     }
@@ -68,7 +77,7 @@ public class StarbucksAPI {
     public static void updateOrder(Document existingOrder, Order order) {
         //StarbucksAPI.orders.put( key, order ) ;
         Document itemList = new Document();
-        ArrayList<Document> itemDocumentList = new ArrayList<>();
+       /* ArrayList<Document> itemDocumentList = new ArrayList<>();
         ArrayList<OrderItem> orderItemsList = order.items;
 
         for  (OrderItem orderItem : orderItemsList) {
@@ -85,7 +94,16 @@ public class StarbucksAPI {
                 .append("links", order.links)
                 .append("status", order.status)
                 .append("message", order.message);
-
+*/
+        Document document = new Document("id", order.id)
+                .append("location", order.location)
+                .append("qty", order.qty)
+                .append("name", order.name)
+                .append("milk", order.milk)
+                .append("size", order.size)
+                .append("links", order.links)
+                .append("status", order.status)
+                .append("message", order.message);
         collection.updateOne(existingOrder, new Document("$set", document));
     }
 

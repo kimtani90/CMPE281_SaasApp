@@ -4,7 +4,21 @@ import org.restlet.*;
 import org.restlet.data.Protocol;
 import org.restlet.routing.Router;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import org.restlet.service.CorsService;
+
 public class StarbucksServer extends Application {
+
+    public StarbucksServer() {
+        CorsService corsService = new CorsService();
+        corsService.setAllowingAllRequestedHeaders(true);
+        corsService.setAllowedOrigins(new HashSet(Arrays.asList("*")));
+        corsService.setAllowedCredentials(true);
+        cirsService.setExposedHeaders(new HashSet(Arrays.asList("*")));
+       // corsService.setSkippingResourceForCorsOptions(true);
+        getServices().add(corsService);
+    }
 
     public static void main(String[] args) throws Exception {
         Component server = new Component() ;

@@ -10,6 +10,11 @@ class OrderController extends RestfulController {
         super(Order)
     }
 
+     @Override 
+     def show() {
+      def order = new Order(params['order'])
+        respond queryForResource(order.orderId)
+    }
     /*@Override
      def save() {
   		def order = new Order(params['order'])

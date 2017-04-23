@@ -63,7 +63,7 @@ grails:
 ---
 grails:
     mongodb:
-        host: 54.183.200.135
+        host: localhost
         port: 27017
         #username: ""
         #password: ""

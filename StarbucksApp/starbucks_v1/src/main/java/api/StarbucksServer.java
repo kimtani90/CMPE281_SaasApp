@@ -10,7 +10,7 @@ import org.restlet.service.CorsService;
 
 public class StarbucksServer extends Application {
 
-    public StarbucksServer() {
+    /*public StarbucksServer() {
         CorsService corsService = new CorsService();
         corsService.setAllowingAllRequestedHeaders(true);
         corsService.setAllowedOrigins(new HashSet(Arrays.asList("*")));
@@ -18,11 +18,11 @@ public class StarbucksServer extends Application {
         cirsService.setExposedHeaders(new HashSet(Arrays.asList("*")));
        // corsService.setSkippingResourceForCorsOptions(true);
         getServices().add(corsService);
-    }
+    }*/
 
     public static void main(String[] args) throws Exception {
         Component server = new Component() ;
-        server.getServers().add(Protocol.HTTP, 9090) ;
+        server.getServers().add(Protocol.HTTP, 8080) ;
         server.getDefaultHost().attach(new StarbucksServer()) ;
         server.start() ;
         StarbucksAPI.startOrderProcessor() ;
@@ -31,10 +31,10 @@ public class StarbucksServer extends Application {
     @Override
     public Restlet createInboundRoot() {
         Router router = new Router(getContext()) ;
-        router.attach( "/v1/starbucks/order/{order_id}", OrderResource.class ) ;        
-        router.attach( "/v1/starbucks/order/{order_id}/pay", PaymentResource.class ) ;        
-        router.attach( "/v1/starbucks/order", OrderResource.class ) ;        
-        router.attach( "/v1/starbucks/orders", OrdersResource.class ) ;        
+        router.attach( "/starbucks/santaclara/order/{order_id}/", OrderResource.class ) ;        
+        router.attach( "/starbucks/santaclara/order/{order_id}/pay/", PaymentResource.class ) ;        
+        router.attach( "/starbucks/santaclara/order/", OrderResource.class ) ;        
+        router.attach( "/starbucks/santaclara/orders/", OrdersResource.class ) ;        
         return router;
     }
 

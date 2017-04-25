@@ -81,6 +81,3 @@ endpoints:
         unique-names: true
 
 ---
-grails:
-    cors:
-        enabled: true

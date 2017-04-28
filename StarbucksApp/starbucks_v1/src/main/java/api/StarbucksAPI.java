@@ -31,7 +31,7 @@ public class StarbucksAPI {
         try {
             StarbucksAPI.orderQueue.put( order_id ) ;
         } catch (Exception e) {}
-        System.out.println( "Order Placed: " + order_id ) ;
+       // System.out.println( "Order Placed: " + order_id ) ;
     }
 
     public static void startOrderProcessor() {
@@ -67,7 +67,6 @@ public class StarbucksAPI {
                 .append("name", order.name)
                 .append("milk", order.milk)
                 .append("size", order.size)
-                .append("links", order.links)
                 .append("status", order.status)
                 .append("message", order.message);
         collection.insertOne(document);
@@ -95,27 +94,28 @@ public class StarbucksAPI {
                 .append("status", order.status)
                 .append("message", order.message);
 */
-        Document document = new Document("id", order.id)
-                .append("location", order.location)
+        Document document = new Document("location", order.location)
                 .append("qty", order.qty)
                 .append("name", order.name)
                 .append("milk", order.milk)
                 .append("size", order.size)
-                .append("links", order.links)
+             //   .append("links", order.links)
                 .append("status", order.status)
                 .append("message", order.message);
         collection.updateOne(existingOrder, new Document("$set", document));
     }
 
     public static Document getOrder(String key) {
+
+
         Document query = new Document("id", key);
         FindIterable<Document> find = collection.find(query);
-
+            System.out.println("query"+query+"....key.."+key);
         MongoCursor<Document> cursor = find.iterator();
         Document doc = null;
         try {
             while (cursor.hasNext()) {
-                System.out.println(doc+ " "+cursor );
+               
                 doc =  new Document();
                 doc = cursor.next();
 
@@ -124,15 +124,11 @@ public class StarbucksAPI {
         catch (Exception e){
             e.printStackTrace();
         }
-        System.out.println("hhhh   "+doc );
+      
         return doc ;
     }
 
-    /* public static Order getOrder(String key) {
-
-         return StarbucksAPI.orders.get(key) ;
-     }
- */
+   
     public static void removeOrder(Document existing_order) {
         /*StarbucksAPI.orders.remove( key ) ;
         StarbucksAPI.orderQueue.remove( key ) ;*/
@@ -145,15 +141,15 @@ public class StarbucksAPI {
             case "PLACED":
                 order.status = "PLACED" ;
                 order.message = "Order has been placed." ;
-                order.links.put ("order", URI+"/"+order.id ) ;
-                order.links.put ("payment",URI+"/"+order.id+"/pay" ) ;
-                order.location = "Santa Clara";
+              //  order.links.put ("order", URI+"/"+order.id ) ;
+               // order.links.put ("payment",URI+"/"+order.id+"/pay" ) ;
+              //  order.location = "Santa Francisco";
                 break;
 
             case "PAID":
                 order.status = "PAID" ;
                 order.message = "Payment Accepted." ;
-                order.links.remove ( "payment" ) ;
+                //order.links.remove ( "payment" ) ;
                 break;
         }
     }

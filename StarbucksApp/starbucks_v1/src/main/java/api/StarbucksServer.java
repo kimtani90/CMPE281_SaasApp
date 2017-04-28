@@ -31,10 +31,10 @@ public class StarbucksServer extends Application {
     @Override
     public Restlet createInboundRoot() {
         Router router = new Router(getContext()) ;
-        router.attach( "/starbucks/santaclara/order/{order_id}/", OrderResource.class ) ;        
-        router.attach( "/starbucks/santaclara/order/{order_id}/pay/", PaymentResource.class ) ;        
-        router.attach( "/starbucks/santaclara/order/", OrderResource.class ) ;        
-        router.attach( "/starbucks/santaclara/orders/", OrdersResource.class ) ;        
+        router.attach( "/starbucks/sanfrancisco/order/{order_id}", OrderResource.class ) ;        
+        router.attach( "/starbucks/sanfrancisco/order/{order_id}/pay/", PaymentResource.class ) ;        
+        router.attach( "/starbucks/sanfrancisco/order/", OrderResource.class ) ;        
+        router.attach( "/starbucks/sanfrancisco/orders/", OrdersResource.class ) ;        
         return router;
     }
 

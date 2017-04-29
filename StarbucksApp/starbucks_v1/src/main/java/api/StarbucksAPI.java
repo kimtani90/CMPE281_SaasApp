@@ -43,24 +43,7 @@ public class StarbucksAPI {
 
         //StarbucksAPI.orders.put( key, order ) ;
         Document itemList = new Document();
-      //  ArrayList<Document> itemDocumentList = new ArrayList<>();
-        //ArrayList<OrderItem> orderItemsList = order.items;
-
-       /* for  (OrderItem orderItem : orderItemsList) {
-
-            Document doc = new Document("qty", orderItem.qty)
-                    .append("name", orderItem.name)
-                    .append("milk", orderItem.milk)
-                    .append("size", orderItem.size);
-            itemDocumentList.add(doc);
-        }
-        Document document = new Document("id", order.id)
-                .append("location", order.location)
-                .append("items", itemDocumentList)
-                .append("links", order.links)
-                .append("status", order.status)
-                .append("message", order.message);
-*/
+     
         Document document = new Document("id", order.id)
                 .append("location", order.location)
                 .append("qty", order.qty)
@@ -76,24 +59,7 @@ public class StarbucksAPI {
     public static void updateOrder(Document existingOrder, Order order) {
         //StarbucksAPI.orders.put( key, order ) ;
         Document itemList = new Document();
-       /* ArrayList<Document> itemDocumentList = new ArrayList<>();
-        ArrayList<OrderItem> orderItemsList = order.items;
-
-        for  (OrderItem orderItem : orderItemsList) {
-
-            Document doc = new Document("qty", orderItem.qty)
-                    .append("name", orderItem.name)
-                    .append("milk", orderItem.milk)
-                    .append("size", orderItem.size);
-            itemDocumentList.add(doc);
-        }
-        Document document = new Document("id", order.id)
-                .append("location", order.location)
-                .append("items", itemDocumentList)
-                .append("links", order.links)
-                .append("status", order.status)
-                .append("message", order.message);
-*/
+       
         Document document = new Document("location", order.location)
                 .append("qty", order.qty)
                 .append("name", order.name)
@@ -130,9 +96,7 @@ public class StarbucksAPI {
 
    
     public static void removeOrder(Document existing_order) {
-        /*StarbucksAPI.orders.remove( key ) ;
-        StarbucksAPI.orderQueue.remove( key ) ;*/
-
+       
         collection.deleteOne(existing_order);
     }
 
@@ -141,10 +105,7 @@ public class StarbucksAPI {
             case "PLACED":
                 order.status = "PLACED" ;
                 order.message = "Order has been placed." ;
-              //  order.links.put ("order", URI+"/"+order.id ) ;
-               // order.links.put ("payment",URI+"/"+order.id+"/pay" ) ;
-              //  order.location = "Santa Francisco";
-                break;
+              break;
 
             case "PAID":
                 order.status = "PAID" ;
@@ -177,22 +138,7 @@ public class StarbucksAPI {
     public static FindIterable<Document> getOrders() {
 
         FindIterable<Document> find = collection.find();
-        /*MongoCursor<Document> cursor = find.iterator();
-
-        try {
-            while (cursor.hasNext()) {
-                Document doc = cursor.next();
-                OrderItem orderItem = new OrderItem();
-                orderItem.setQty(Integer.parseInt((String)doc.get("qty"));
-                orderItem.setName((String) doc.get("name"));
-                orderItem.setSize((String)doc.get("size"));
-                orderItem.setMilk((String)doc.get("milk"));
-                StarbucksAPI.orders.put(key, orderItem);
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }*/
+        
         return find;
     }
 

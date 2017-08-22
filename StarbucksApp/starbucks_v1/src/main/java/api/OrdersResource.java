@@ -16,7 +16,7 @@ import java.util.Collection ;
 
 public class OrdersResource extends ServerResource {
 
-    @CrossOrigin
+    
     @Get
     public Representation get_action (Representation rep) throws IOException {
         FindIterable<Document> orders = StarbucksAPI.getOrders() ;

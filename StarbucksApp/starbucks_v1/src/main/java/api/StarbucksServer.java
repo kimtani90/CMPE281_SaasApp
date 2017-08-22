@@ -10,29 +10,18 @@ import org.restlet.service.CorsService;
 
 public class StarbucksServer extends Application {
 
-    /*public StarbucksServer() {
-        CorsService corsService = new CorsService();
-        corsService.setAllowingAllRequestedHeaders(true);
-        corsService.setAllowedOrigins(new HashSet(Arrays.asList("*")));
-        corsService.setAllowedCredentials(true);
-        cirsService.setExposedHeaders(new HashSet(Arrays.asList("*")));
-       // corsService.setSkippingResourceForCorsOptions(true);
-        getServices().add(corsService);
-    }*/
-
     public static void main(String[] args) throws Exception {
         Component server = new Component() ;
         server.getServers().add(Protocol.HTTP, 8080) ;
         server.getDefaultHost().attach(new StarbucksServer()) ;
         server.start() ;
-        StarbucksAPI.startOrderProcessor() ;
+        
     }
 
     @Override
     public Restlet createInboundRoot() {
         Router router = new Router(getContext()) ;
         router.attach( "/starbucks/sanfrancisco/order/{order_id}", OrderResource.class ) ;        
-        router.attach( "/starbucks/sanfrancisco/order/{order_id}/pay/", PaymentResource.class ) ;        
         router.attach( "/starbucks/sanfrancisco/order/", OrderResource.class ) ;        
         router.attach( "/starbucks/sanfrancisco/orders/", OrdersResource.class ) ;        
         return router;

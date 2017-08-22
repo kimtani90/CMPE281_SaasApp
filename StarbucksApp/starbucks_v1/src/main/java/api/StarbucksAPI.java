@@ -20,24 +20,10 @@ import java.util.concurrent.BlockingQueue;
 
 public class StarbucksAPI {
 
-    //public enum OrderStatus { PLACED, PAID, PREPARING, SERVED, COLLECTED  }
 
-    private static BlockingQueue<String> orderQueue = new LinkedBlockingQueue<String>();
-    private static ConcurrentHashMap<String,Order> orders = new ConcurrentHashMap<String,Order>();
     private static MongoService mongoService = new MongoService();
     private static MongoCollection<Document> collection = mongoService.collection("Order");
 
-    public static void placeOrder(String order_id) {
-        try {
-            StarbucksAPI.orderQueue.put( order_id ) ;
-        } catch (Exception e) {}
-       // System.out.println( "Order Placed: " + order_id ) ;
-    }
-
-    public static void startOrderProcessor() {
-        StarbucksBarista barista = new StarbucksBarista( orderQueue ) ;
-        new Thread(barista).start();
-    }
 
     public static void addOrder(String key, Order order) {
 
@@ -57,7 +43,7 @@ public class StarbucksAPI {
     }
 
     public static void updateOrder(Document existingOrder, Order order) {
-        //StarbucksAPI.orders.put( key, order ) ;
+    
         Document itemList = new Document();
        
         Document document = new Document("location", order.location)
@@ -65,7 +51,6 @@ public class StarbucksAPI {
                 .append("name", order.name)
                 .append("milk", order.milk)
                 .append("size", order.size)
-             //   .append("links", order.links)
                 .append("status", order.status)
                 .append("message", order.message);
         collection.updateOne(existingOrder, new Document("$set", document));
@@ -76,7 +61,7 @@ public class StarbucksAPI {
 
         Document query = new Document("id", key);
         FindIterable<Document> find = collection.find(query);
-            System.out.println("query"+query+"....key.."+key);
+                
         MongoCursor<Document> cursor = find.iterator();
         Document doc = null;
         try {
@@ -100,7 +85,7 @@ public class StarbucksAPI {
         collection.deleteOne(existing_order);
     }
 
-    public static void setOrderStatus( Order order, String URI, String status ) {
+    public static void setOrderStatus( Order order, String status ) {
         switch ( status ) {
             case "PLACED":
                 order.status = "PLACED" ;
@@ -110,30 +95,9 @@ public class StarbucksAPI {
             case "PAID":
                 order.status = "PAID" ;
                 order.message = "Payment Accepted." ;
-                //order.links.remove ( "payment" ) ;
                 break;
         }
     }
-
-    public static void setOrderStatus( Order order, String status ) {
-        switch ( status ) {
-            case "PREPARING":
-                order.status = "PREPARING" ;
-                order.message = "Order preparations in progress." ;
-                break;
-
-            case "SERVED":
-                order.status = "SERVED" ;
-                order.message = "Order served, wating for Customer pickup." ;
-                break;
-
-            case "COLLECTED":
-                order.status = "COLLECTED" ;
-                order.message = "Order retrived by Customer." ;
-                break;
-        }
-    }
-
 
     public static FindIterable<Document> getOrders() {
 

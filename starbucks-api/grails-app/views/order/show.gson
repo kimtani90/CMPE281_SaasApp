@@ -1,8 +1,0 @@
-import starbucks.api.Order
-
-model {
-	Order order
-}
-
-json tmpl.order(order)
-

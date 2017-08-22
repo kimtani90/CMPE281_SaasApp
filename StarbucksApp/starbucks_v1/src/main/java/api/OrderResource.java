@@ -8,7 +8,6 @@ import org.restlet.ext.json.* ;
 import org.restlet.resource.* ;
 import org.restlet.ext.jackson.* ;
 import com.mongodb.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.io.IOException ;
 import java.util.ArrayList;
@@ -23,25 +22,17 @@ public class OrderResource extends ServerResource {
         
         Document existing_order = StarbucksAPI.getOrder( order_id ) ;
 
-        if ( order_id == null || order_id.equals("") ) {
+        if ( order_id == null || order_id.equals("") || existing_order == null) {
 
             setStatus( org.restlet.data.Status.CLIENT_ERROR_NOT_FOUND ) ;
-            api.Status api = new api.Status() ;
-            api.status = "error" ;
-            api.message = "Order not found." ;
+            Status st = new Status() ;
+                st.status = "error" ;
+                st.message = "Order not found." ;
 
-            return new JacksonRepresentation<api.Status>(api) ;
+            return new JacksonRepresentation<Status>(st) ;
         }
         else {
             
-            if ( order_id == null || order_id.equals("")  || existing_order == null ) {
-                setStatus( org.restlet.data.Status.CLIENT_ERROR_NOT_FOUND ) ;
-                api.Status api = new api.Status() ;
-                api.status = "error" ;
-                api.message = "Order not found." ;
-                return new JacksonRepresentation<api.Status>(api) ;
-            }
-            else
                 return new JacksonRepresentation<Document>(existing_order) ;
         }
     }
@@ -55,8 +46,8 @@ public class OrderResource extends ServerResource {
 
         
         Order order = orderRep.getObject() ;
-        StarbucksAPI.setOrderStatus( order, getReference().toString(), "PLACED" ) ;
-        StarbucksAPI.placeOrder( order.id ) ;
+        StarbucksAPI.setOrderStatus( order, "PLACED" ) ;
+        
         StarbucksAPI.addOrder( order.id, order ) ;
         return new JacksonRepresentation<String>(order.id) ;
     }
@@ -74,25 +65,23 @@ public class OrderResource extends ServerResource {
         if ( order_id == null || order_id.equals("")  || existing_order == null ) {
 
             setStatus( org.restlet.data.Status.CLIENT_ERROR_NOT_FOUND ) ;
-            api.Status api = new api.Status() ;
-            api.status = "error" ;
-            api.message = "Order not found." ;
-
-            return new JacksonRepresentation<api.Status>(api) ;
+                Status st = new Status() ;
+                    st.status = "error" ;
+                    st.message = "Order not found." ;
+                return new JacksonRepresentation<Status>(st) ;
 
         }
         else if ( existing_order != null && !existing_order.get("status").equals("PLACED") ) {
 
             setStatus( org.restlet.data.Status.CLIENT_ERROR_PRECONDITION_FAILED ) ;
-            api.Status api = new api.Status() ;
-            api.status = "error" ;
-            api.message = "Order Update Rejected." ;
-
-            return new JacksonRepresentation<api.Status>(api) ;
+            Status st = new Status() ;
+                    st.status = "error" ;
+                    st.message = "Order update rejected." ;
+                return new JacksonRepresentation<Status>(st) ;
         }
         else {
             order.id= order_id;
-            StarbucksAPI.setOrderStatus( order, getReference().toString(), "PLACED" ) ;
+            StarbucksAPI.setOrderStatus( order, "PLACED" ) ;
             StarbucksAPI.updateOrder( existing_order , order) ;
 
             return new JacksonRepresentation<Order>(order) ;
@@ -104,35 +93,33 @@ public class OrderResource extends ServerResource {
 
         String order_id = getAttribute("order_id") ;
         Document existing_order = StarbucksAPI.getOrder( order_id ) ;
-        System.out.println("order_id"+order_id+"....order_id.equal::"+order_id.equals("")+"..existing_order.."+existing_order);
+       
 
         if ( order_id == null || order_id.equals("")  || existing_order == null ) {
 
             setStatus( org.restlet.data.Status.CLIENT_ERROR_NOT_FOUND ) ;
-            api.Status api = new api.Status() ;
-            api.status = "error" ;
-            api.message = "Order not found." ;
-
-            return new JacksonRepresentation<api.Status>(api) ;
+            Status st = new Status() ;
+                    st.status = "error" ;
+                    st.message = "Order not found." ;
+            return new JacksonRepresentation<Status>(st) ;
 
         }
         else if ( !((String)existing_order.get("status")).equals("PLACED") ) {
 
             setStatus( org.restlet.data.Status.CLIENT_ERROR_PRECONDITION_FAILED ) ;
-            api.Status api = new api.Status() ;
-            api.status = "error" ;
-            api.message = "Order Cancelling Rejected." ;
-
-            return new JacksonRepresentation<api.Status>(api) ;
+            Status st = new Status() ;
+                    st.status = "error" ;
+                    st.message = "Order cancelling rejected." ;
+                return new JacksonRepresentation<Status>(st) ;
         }
         else {
 
             StarbucksAPI.removeOrder(existing_order) ;
             setStatus( org.restlet.data.Status.SUCCESS_OK ) ;
-            api.Status api = new api.Status() ;
-            api.status = "success" ;
-            api.message = "Order removed successfully." ;
-            return new JacksonRepresentation<api.Status>(api) ;
+            Status st = new Status() ;
+                    st.status = "error" ;
+                    st.message = "Order removed successfully." ;
+                return new JacksonRepresentation<Status>(st) ;
         }
 
     }

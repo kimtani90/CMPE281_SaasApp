@@ -21,7 +21,6 @@ app.use(bodyParser.json());
 var mongoose   = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/starbucksNodejs'); // connect to our database
 
-var Bear     = require('./app/models/bear');
 
 var Order     = require('./app/models/Order');
 // ROUTES FOR OUR API
